@@ -31,14 +31,12 @@ def preprocess_attachment(file):
     with open(os.path.join("Attachments", file.name),"wb") as f:
             f.write(file.getbuffer())
 
-
-
 if uploaded_files is not None:
     attachments = uploaded_files
     for attachment in attachments:
         filename = attachment.name
         if filename[-3:] in ['jpg','png','JPG','PNG'] or filename[-4:] == "jpeg":
-            st.image(attachment, caption='Image ' + str(attachments.index(attachment)+1)+': '+filename,width= 200, use_column_width='always')
+            st.image(attachment, caption='Image ' + str(attachments.index(attachment)+1)+': '+filename,width= 100, use_column_width='always')
         preprocess_attachment(attachment)
     attachments_to_send = []
     for (root,dirs,files) in os.walk('Attachments', topdown=True):   
@@ -48,7 +46,7 @@ if uploaded_files is not None:
 if st.button('Send email'):
     if len(subject) * len(body) * len(recipient) != 0:
         try:
-            ezgmail.send(recipient,subject, body, attachments_to_send)
+            ezgmail.send(recipient, subject, body, attachments_to_send)
             st.success('Email sent! 🎉')
         except Exception as e:
             st.error(f'An error occured: {e}')
@@ -59,13 +57,13 @@ if st.button('Send email'):
     else:
         st.warning('Please type a recipient')
     # clear the attachments folder for the next email
-    for (root,dirs,files) in os.walk('Attachments', topdown=True): 
-        for f in files:
-            try:
-                os.remove(os.path.join("Attachments",f))  
-            except Exception as e:
-                continue
-                #st.write(e)
+    # for (root,dirs,files) in os.walk('Attachments', topdown=True): 
+    #     for f in files:
+    #         try:
+    #             os.remove(os.path.join("Attachments",f))  
+    #         except Exception as e:
+    #             continue
+    #             st.error(e)
 
 
 
