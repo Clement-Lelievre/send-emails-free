@@ -21,7 +21,7 @@ st.markdown(
     label.css-145kmo2.effi0qh0 {
     color: white;
     }
-    div.row-widget.stCheckbox {
+    div.element-container.css-z8kais.e1tzin5v1 {
     color: white;
     } 
     .reportview-container {
@@ -47,10 +47,11 @@ body += '\n\nSent via an app coded by Clement Lelievre.\nLinkedin: www.linkedin.
 
 attachments, uploaded_files, attachments_to_send = None, None, None
 
-recipients = st.text_input('Email recipient', max_chars=40)
+recipient1 = st.text_input('Email recipient', max_chars=40)
 if st.checkbox('Add a recipient?'):
     recipient2 = st.text_input('Email recipient 2', max_chars=40)
-    recipients = [recipients, recipient2]
+
+recipients = [item for item in (recipient1, recipient2) if item != '']
 
 if st.checkbox('Include attachment(s)?'):
     st.set_option('deprecation.showfileUploaderEncoding', False)
@@ -79,7 +80,7 @@ if uploaded_files is not None:
             attachments_to_send.append(f)
 
 if st.button('Send email'):
-    if len(subject) * len(body) * len(recipient) != 0:
+    if len(subject) * len(body) * len(recipients) != 0:
         try:
             ezgmail.send(recipients, subject, body, attachments_to_send)
             st.success('Email sent! 🎉')
