@@ -60,7 +60,7 @@ if st.button('Send email'):
     for (root,dirs,files) in os.walk(os.path.join("/app","Attachments"), topdown=True): 
         for f in files:
             try:
-                os.remove(f))  
+                os.remove(f)
             except Exception as e:
                 continue
                 st.error(e)
