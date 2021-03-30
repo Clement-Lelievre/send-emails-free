@@ -29,6 +29,7 @@ if st.checkbox('Include attachment(s)?'):
     st.set_option('deprecation.showfileUploaderEncoding', False)
     uploaded_files = st.file_uploader("Choose a file", type=["jpg","jpeg","JPG","png","PNG"], accept_multiple_files=True, help="Upload your file(s) (only images for now)")
 
+@st.cache
 def preprocess_attachment(file):
     '''saves locally the attached file'''
     try:
@@ -38,7 +39,7 @@ def preprocess_attachment(file):
     except Exception as e:
         st.error(e)
 
-@st.cache
+
 
 
 if uploaded_files is not None:
