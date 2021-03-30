@@ -58,15 +58,14 @@ if st.button('Send email'):
         st.warning('Please type a body')
     else:
         st.warning('Please type a recipient')
-
-# clear the attachments folder for the next user
-for (root,dirs,files) in os.walk('Attachments', topdown=True): 
-    for f in files:
-        try:
-            os.remove(os.path.join("Attachments",f))  
-        except Exception as e:
-            continue
-            #st.write(e)
+    # clear the attachments folder for the next email
+    for (root,dirs,files) in os.walk('Attachments', topdown=True): 
+        for f in files:
+            try:
+                os.remove(os.path.join("Attachments",f))  
+            except Exception as e:
+                continue
+                #st.write(e)
 
 
 
