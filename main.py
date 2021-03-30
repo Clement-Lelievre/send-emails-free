@@ -44,7 +44,7 @@ st.markdown("""
 subject = st.text_input('Email subject', max_chars=20)
 body = st.text_area('Email body', max_chars= 100)
 
-body += '\n\nSent via an app coded by Clement Lelievre.\nwww.linkedin.com/in/clem-data/' # a little bit of self-advertising
+body += '\n\nSent via an app coded by Clement Lelievre here: www.email2me.herokuapp.com/.\nwww.linkedin.com/in/clem-data/' # a little bit of self-advertising
 
 nb = st.slider('Select number of recipients',1,5, help = 'Select how many adresses will receive your message')
 recipients = []
