@@ -1,12 +1,36 @@
 import ezgmail, os
 import streamlit as st
-from PIL import Image 
+from PIL import Image
+import base64 
 
 st.set_page_config(
     page_title="Free email sender!", # => Quick reference - Streamlit
     page_icon="📧",
     layout="centered", # wide
     initial_sidebar_state="auto") # collapsed
+
+st.markdown(
+    """
+    <style>
+    h1 {
+    color: white;
+    }
+    h2 {
+    color: white;
+    }
+    label.css-145kmo2.effi0qh0 {
+    color: white;
+    }
+    div.st-d1.st-de.st-bv.st-ae.st-af.st-ag.st-df.st-ai.st-aj {
+    color: white;
+    } 
+    .reportview-container {
+        background: url("https://www.agari.com/wp-content/uploads/2019/06/python-code.jpg")
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 ezgmail.init()
 
@@ -19,7 +43,7 @@ st.markdown("""
 subject = st.text_input('Email subject', max_chars=20)
 body = st.text_area('Email body', max_chars= 100)
 
-subject += '\nSent via an app coded by Clement Lelievre'
+body += '\n\nSent via an app coded by Clement Lelievre.\nLinkedin: www.linkedin.com/in/clem-data/'
 
 attachments, uploaded_files, attachments_to_send = None, None, None
 
@@ -55,6 +79,7 @@ if st.button('Send email'):
     if len(subject) * len(body) * len(recipient) != 0:
         try:
             ezgmail.send(recipient, subject, body, attachments_to_send)
+            print(subject)
             st.success('Email sent! 🎉')
         except Exception as e:
             st.error(f'An error occured: {e}')
