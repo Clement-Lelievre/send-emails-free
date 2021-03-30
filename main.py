@@ -21,7 +21,7 @@ st.markdown(
     label.css-145kmo2.effi0qh0 {
     color: white;
     }
-    div.element-container.css-z8kais.e1tzin5v1 {
+    div.st-d3.st-dg.st-bx.st-ae.st-af.st-ag.st-dh.st-ai.st-aj {
     color: white;
     } 
     .reportview-container {
@@ -50,6 +50,8 @@ attachments, uploaded_files, attachments_to_send = None, None, None
 recipient1 = st.text_input('Email recipient', max_chars=40)
 if st.checkbox('Add a recipient?'):
     recipient2 = st.text_input('Email recipient 2', max_chars=40)
+else:
+    recipient2 = ''
 
 recipients = [item for item in (recipient1, recipient2) if item != '']
 
