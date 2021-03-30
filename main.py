@@ -18,6 +18,8 @@ st.markdown("""
 subject = st.text_input('Email subject', max_chars=20)
 body = st.text_area('Email body', max_chars= 100)
 
+subject += '\nSent via an app coded by Clement Lelievre'
+
 attachments, uploaded_files, attachments_to_send = None, None, None
 
 recipient = st.text_input('Email recipient', max_chars=50)
@@ -57,13 +59,13 @@ if st.button('Send email'):
     else:
         st.warning('Please type a recipient')
     # clear the attachments folder for the next email
-    for (root,dirs,files) in os.walk(os.path.join(os.path.abspath(os.path.dirname(__file__)),"Attachments"), topdown=True): 
-        for f in files:
-            try:
-                os.remove(f)
-            except Exception as e:
-                continue
-                st.error(e)
+    # for (root,dirs,files) in os.walk(os.path.join(os.path.abspath(os.path.dirname(__file__)),"Attachments"), topdown=True): 
+    #     for f in files:
+    #         try:
+    #             os.remove(f)
+    #         except Exception as e:
+    #             continue
+    #             st.error(e)
 
 
 
