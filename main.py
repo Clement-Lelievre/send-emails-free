@@ -21,7 +21,7 @@ st.markdown(
     label.css-145kmo2.effi0qh0 {
     color: white;
     }
-    div.st-d1.st-de.st-bv.st-ae.st-af.st-ag.st-df.st-ai.st-aj {
+    div.row-widget stCheckbox {
     color: white;
     } 
     .reportview-container {
