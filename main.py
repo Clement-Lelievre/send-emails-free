@@ -47,7 +47,11 @@ body += '\n\nSent via an app coded by Clement Lelievre.\nLinkedin: www.linkedin.
 
 attachments, uploaded_files, attachments_to_send = None, None, None
 
-recipient = st.text_input('Email recipient', max_chars=50)
+recipient = st.text_input('Email recipient', max_chars=40)
+if st.checkbox('Add a recipient?'):
+    recipient2 = st.text_input('Email recipient 2', max_chars=40)
+
+recipients = [recipient, recipient2]
 
 if st.checkbox('Include attachment(s)?'):
     st.set_option('deprecation.showfileUploaderEncoding', False)
@@ -78,7 +82,7 @@ if uploaded_files is not None:
 if st.button('Send email'):
     if len(subject) * len(body) * len(recipient) != 0:
         try:
-            ezgmail.send(recipient, subject, body, attachments_to_send)
+            ezgmail.send(recipients, subject, body, attachments_to_send)
             print(subject)
             st.success('Email sent! 🎉')
         except Exception as e:
