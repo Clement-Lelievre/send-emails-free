@@ -32,15 +32,11 @@ if st.checkbox('Include attachment(s)?'):
 @st.cache
 def preprocess_attachment(file):
     '''saves locally the attached file'''
-    try:
-        file = Image.open(file)
-        with open(os.path.join(os.path.abspath(os.path.dirname(__file__)),"Attachments", file.name),"wb") as f:
-            f.write(file)#.getbuffer())
-    except Exception as e:
-        st.error(e)
-
-
-
+    name = file.name
+    file = Image.open(file)
+    with open(os.path.join(os.path.abspath(os.path.dirname(__file__)),"Attachments", name),"wb") as f:
+        f.write(file)#.getbuffer())
+    
 
 if uploaded_files is not None:
     attachments = uploaded_files
