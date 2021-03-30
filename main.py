@@ -26,12 +26,20 @@ recipient = st.text_input('Email recipient', max_chars=50)
 
 if st.checkbox('Include attachment(s)?'):
     st.set_option('deprecation.showfileUploaderEncoding', False)
-    uploaded_files = st.file_uploader("Choose a file", type=["csv","xls","xlsx","doc","docx","jpg","jpeg","JPG","png","PNG"], accept_multiple_files=True,help="Upload your file(s)")
+    uploaded_files = st.file_uploader("Choose a file", type=["jpg","jpeg","JPG","png","PNG"], accept_multiple_files=True, help="Upload your file(s) (only images for now)")
 
 def preprocess_attachment(file):
     '''saves locally the attached file'''
-    with open(os.path.join(os.path.abspath(os.path.dirname(__file__)),"Attachments", file.name),"wb") as f:
+    try:
+        with open(os.path.join(os.path.abspath(os.path.dirname(__file__)),"Attachments", file.name),"wb") as f:
             f.write(file.getbuffer())
+    except Exception as e:
+        st.error(e)
+
+# @st.cache
+# def load_image(file):
+# 	img = Image.open(file)
+# 	return img 
 
 if uploaded_files is not None:
     attachments = uploaded_files
