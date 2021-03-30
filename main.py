@@ -34,8 +34,9 @@ def preprocess_attachment(file):
     '''saves locally the attached file'''
     name = file.name
     file = Image.open(file)
-    with open(os.path.join(os.path.abspath(os.path.dirname(__file__)),"Attachments", name),"wb") as f:
-        f.write(file.getbuffer())
+    file = file.save(os.path.join("Attachments",name))
+    # with open(os.path.join(os.path.abspath(os.path.dirname(__file__)),"Attachments", name),"wb") as f:
+    #     f.write(file.getbuffer())
     
 
 if uploaded_files is not None:
