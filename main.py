@@ -44,7 +44,7 @@ st.markdown("""
 subject = st.text_input('Email subject', max_chars=20)
 body = st.text_area('Email body', max_chars= 100)
 
-body += '\n\nSent via an app coded by Clement Lelievre here: www.email2me.herokuapp.com/.\nwww.linkedin.com/in/clem-data/' # a little bit of self-advertising
+body += '\n\nSent via an app coded by Clement Lelievre (www.linkedin.com/in/clem-data/) here: www.email2me.herokuapp.com/\n' # a little bit of self-advertising
 
 nb = st.slider('Select number of recipients',1,5, help = 'Select how many adresses will receive your message')
 recipients = []
@@ -82,8 +82,10 @@ if st.button('Send email'):
                     ezgmail.send(item, subject, body)
             if len(recipients) == 1:
                 st.success('Email sent! 🎉')
+                st.balloons()
             elif len(recipients) > 1:
                 st.success(str(len(recipients)) + ' emails sent! 🎉')
+                st.balloons()
             body += '\n\nRecipient list:\n'
             for item in recipients:
                 body += '\n' + item
