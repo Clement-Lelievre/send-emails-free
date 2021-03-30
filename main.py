@@ -18,7 +18,7 @@ st.markdown("""
 subject = st.text_input('Email subject', max_chars=20)
 body = st.text_area('Email body', max_chars= 100)
 
-attachments, uploaded_files = None, None
+attachments, uploaded_files, attachments_to_send = None, None, None
 
 recipient = st.text_input('Email recipient', max_chars=50)
 
