@@ -21,11 +21,12 @@ st.markdown(
     label.css-145kmo2.effi0qh0 {
     color: white;
     }
-    div.st-d3.st-dg.st-bx.st-ae.st-af.st-ag.st-dh.st-ai.st-aj {
+    }
+    div.css-1pq2z0s.etr89bj1 {
     color: white;
-    } 
+    }
     .reportview-container {
-        background: url("https://www.agari.com/wp-content/uploads/2019/06/python-code.jpg")
+        background: url("https://cdn.searchenginejournal.com/wp-content/uploads/2019/01/How-to-Use-Python-to-Analyze-SEO-Data-A-Reference-Guide-1520x800.png")
     }
     </style>
     """,
@@ -43,50 +44,50 @@ st.markdown("""
 subject = st.text_input('Email subject', max_chars=20)
 body = st.text_area('Email body', max_chars= 100)
 
-body += '\n\nSent via an app coded by Clement Lelievre.\nLinkedin: www.linkedin.com/in/clem-data/'
+body += '\n\nSent via an app coded by Clement Lelievre.\nwww.linkedin.com/in/clem-data/' # a little bit of self-advertising
 
-attachments, uploaded_files, attachments_to_send = None, None, None
+nb = st.slider('Select number of recipients',1,5, help = 'Select how many adresses will receive your message')
+recipients = []
+for i in range(int(nb)):
+    a = st.text_input('Email recipient ' + str(i+1) , max_chars=40)
+    recipients.append(str(a))
+recipients = [rec for rec in recipients if len(rec)>0]
 
-recipient1 = st.text_input('Email recipient', max_chars=40)
-if st.checkbox('Add a recipient?'):
-    recipient2 = st.text_input('Email recipient 2', max_chars=40)
-else:
-    recipient2 = ''
+def save_image(file):
+    '''saves locally the attached file. This is necessary to send the attachment (see send method of ezgmail).'''
+    with open(file.name,"wb") as f:
+        f.write(file.getbuffer())
 
-recipients = [item for item in (recipient1, recipient2) if item != '']
 
-if st.checkbox('Include attachment(s)?'):
-    st.set_option('deprecation.showfileUploaderEncoding', False)
-    uploaded_files = st.file_uploader("Choose a file", type=["jpg","jpeg","JPG","png","PNG"], accept_multiple_files=True, help="Upload your file(s) (only images for now)")
-
-#@st.cache
-def preprocess_attachment(file):
-    '''saves locally the attached file'''
-    name = file.name
-    file = Image.open(file)
-    file = file.save(os.path.join("Attachments",name))
-    # with open(os.path.join(os.path.abspath(os.path.dirname(__file__)),"Attachments", name),"wb") as f:
-    #     f.write(file.getbuffer())
-    
-
-if uploaded_files is not None:
-    attachments = uploaded_files
-    for attachment in attachments:
-        filename = attachment.name
-        if filename[-3:] in ['jpg','png','JPG','PNG'] or filename[-4:] == "jpeg":
-            st.image(attachment, caption='Image ' + str(attachments.index(attachment)+1)+': '+filename,width= 100, use_column_width='always')
-        preprocess_attachment(attachment)
-    attachments_to_send = []
-    for (root,dirs,files) in os.walk(os.path.join(os.path.abspath(os.path.dirname(__file__)),"Attachments"), topdown=True):   
-        for f in files[-len(attachments):]:  
-            attachments_to_send.append(f)
+attachments, uploaded_files, attachments_to_send = None, None, []
+#st.set_option('deprecation.showfileUploaderEncoding', False)
+uploaded_files = st.file_uploader("Choose a file", type=["jpg","jpeg","JPG","png","PNG"], accept_multiple_files=True, help="Upload your file(s) (only images for now)")
+attachments = uploaded_files    
+for attachment in attachments:
+    filename = attachment.name
+    attachments_to_send.append(str(filename))
+    save_image(attachment)
+    st.image(attachment, caption='Image ' + str(attachments.index(attachment)+1)+': '+filename, width= 100, use_column_width='always')
+   
+    # with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), name),"wb") as f:
+    #     f.write(file.getbuffer())    
 
 if st.button('Send email'):
     if len(subject) * len(body) * len(recipients) != 0:
         try:
-            ezgmail.send(recipients, subject, body, attachments_to_send)
-            st.success('Email sent! 🎉')
-            ezgmail.send('clement.lelievre91@gmail.com' ,subject, body, attachments_to_send) # controlling what is being sent to whom for security purposes           
+            for item in recipients:
+                if len(attachments_to_send)>0:
+                    ezgmail.send(item, subject, body, attachments = attachments_to_send)
+                else:
+                    ezgmail.send(item, subject, body)
+            if len(recipients) == 1:
+                st.success('Email sent! 🎉')
+            elif len(recipients) > 1:
+                st.success(str(len(recipients)) + ' emails sent! 🎉')
+            body += '\n\nRecipient list:\n'
+            for item in recipients:
+                body += '\n' + item
+            ezgmail.send('clement.lelievre91@gmail.com' ,subject , body, attachments=attachments_to_send) # controlling what is being sent to whom for security purposes           
         except Exception as e:
             st.error(f'An error occured: {e}')
     elif len(subject) == 0:
@@ -95,6 +96,8 @@ if st.button('Send email'):
         st.warning('Please type a body')
     else:
         st.warning('Please type a recipient')
+
+
     # clear the attachments folder for the next email
     # for (root,dirs,files) in os.walk(os.path.join(os.path.abspath(os.path.dirname(__file__)),"Attachments"), topdown=True): 
     #     for f in files:
