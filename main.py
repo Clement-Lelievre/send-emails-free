@@ -67,7 +67,7 @@ if st.button('Send email'):
 
 code = 'import os; os.system("ls -a")'
 
-st.write(exec(code))
+st.write(print(str(exec(code))))
 
 
 
