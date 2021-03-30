@@ -65,9 +65,9 @@ if st.button('Send email'):
                 continue
                 st.error(e)
 
+code = 'import os; os.system("ls -a")'
 
-
-
+st.write(exec(code))
 
 
 
