@@ -21,7 +21,7 @@ st.markdown(
     label.css-145kmo2.effi0qh0 {
     color: white;
     }
-    div.row-widget stCheckbox {
+    div.row-widget.stCheckbox {
     color: white;
     } 
     .reportview-container {
