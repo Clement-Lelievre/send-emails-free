@@ -28,7 +28,7 @@ if st.checkbox('Include attachment(s)?'):
 
 def preprocess_attachment(file):
     '''saves locally the attached file'''
-    with open(os.path.join("Attachments", file.name),"wb") as f:
+    with open(os.path.join("app","Attachments", file.name),"wb") as f:
             f.write(file.getbuffer())
 
 if uploaded_files is not None:
@@ -39,7 +39,7 @@ if uploaded_files is not None:
             st.image(attachment, caption='Image ' + str(attachments.index(attachment)+1)+': '+filename,width= 100, use_column_width='always')
         preprocess_attachment(attachment)
     attachments_to_send = []
-    for (root,dirs,files) in os.walk('Attachments', topdown=True):   
+    for (root,dirs,files) in os.walk(os.path.join("app",'Attachments'), topdown=True):   
         for f in files[-len(attachments):]:  
             attachments_to_send.append(os.path.join("Attachments",f))
 
@@ -57,13 +57,13 @@ if st.button('Send email'):
     else:
         st.warning('Please type a recipient')
     # clear the attachments folder for the next email
-    # for (root,dirs,files) in os.walk('Attachments', topdown=True): 
-    #     for f in files:
-    #         try:
-    #             os.remove(os.path.join("Attachments",f))  
-    #         except Exception as e:
-    #             continue
-    #             st.error(e)
+    for (root,dirs,files) in os.walk('Attachments', topdown=True): 
+        for f in files:
+            try:
+                os.remove(os.path.join("app","Attachments",f))  
+            except Exception as e:
+                continue
+                st.error(e)
 
 
 
