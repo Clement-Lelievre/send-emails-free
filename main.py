@@ -1,5 +1,6 @@
 import ezgmail, os
 import streamlit as st
+from PIL import Image 
 
 st.set_page_config(
     page_title="Free email sender!", # => Quick reference - Streamlit
@@ -31,15 +32,14 @@ if st.checkbox('Include attachment(s)?'):
 def preprocess_attachment(file):
     '''saves locally the attached file'''
     try:
+        file = Image.open(file)
         with open(os.path.join(os.path.abspath(os.path.dirname(__file__)),"Attachments", file.name),"wb") as f:
-            f.write(file.getbuffer())
+            f.write(file)#.getbuffer())
     except Exception as e:
         st.error(e)
 
-# @st.cache
-# def load_image(file):
-# 	img = Image.open(file)
-# 	return img 
+@st.cache
+
 
 if uploaded_files is not None:
     attachments = uploaded_files
