@@ -26,10 +26,10 @@ if st.checkbox('Include attachment(s)?'):
     st.set_option('deprecation.showfileUploaderEncoding', False)
     uploaded_files = st.file_uploader("Choose a file", type=["csv","xls","xlsx","doc","docx","jpg","jpeg","JPG","png","PNG"], accept_multiple_files=True,help="Upload your file(s)")
 
-def preprocess_attachment(file):
-    '''saves locally the attached file'''
-    with open(os.path.join("/app","Attachments", file.name),"wb") as f:
-            f.write(file.getbuffer())
+# def preprocess_attachment(file):
+#     '''saves locally the attached file'''
+#     with open(os.path.join("/app","Attachments", file.name),"wb") as f:
+#             f.write(file.getbuffer())
 
 if uploaded_files is not None:
     attachments = uploaded_files
@@ -37,11 +37,11 @@ if uploaded_files is not None:
         filename = attachment.name
         if filename[-3:] in ['jpg','png','JPG','PNG'] or filename[-4:] == "jpeg":
             st.image(attachment, caption='Image ' + str(attachments.index(attachment)+1)+': '+filename,width= 100, use_column_width='always')
-        preprocess_attachment(attachment)
-    attachments_to_send = []
-    for (root,dirs,files) in os.walk(os.path.join("/app",'Attachments'), topdown=True):   
-        for f in files[-len(attachments):]:  
-            attachments_to_send.append(f)
+        #preprocess_attachment(attachment)
+    attachments_to_send = [item.getbuffer() for item in attachments]
+    # for (root,dirs,files) in os.walk(os.path.join("/app",'Attachments'), topdown=True):   
+    #     for f in files[-len(attachments):]:  
+    #         attachments_to_send.append(f)
 
 if st.button('Send email'):
     if len(subject) * len(body) * len(recipient) != 0:
@@ -65,9 +65,7 @@ if st.button('Send email'):
                 continue
                 st.error(e)
 
-code = 'import os; os.system("ls -a")'
 
-st.write(print(str(exec(code))))
 
 
 
