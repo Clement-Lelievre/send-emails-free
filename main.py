@@ -2,6 +2,7 @@ import ezgmail, os
 import streamlit as st
 from PIL import Image
 import base64 
+import streamlit.components.v1 as components
 
 st.set_page_config(
     page_title="Free email sender!", # => Quick reference - Streamlit
@@ -32,6 +33,12 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
+components.html("""<meta property="og:type" content="website">
+    <meta property="og:url" content="https://email2me.herokuapp.com/">
+    <meta property="og:title" content="Streamlit">
+    <meta property="og:description" content="A demo app that enables to send emails and attachments.">
+    <meta property="og:image" content=""> """)
 
 ezgmail.init()
 
